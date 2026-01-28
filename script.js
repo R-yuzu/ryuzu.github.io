@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMenuToggle();
     
     // 设置动态标题
-    document.title = "炫动空间 | " + getTimeBasedGreeting();
+    document.title = "弓长木贞 | " + getTimeBasedGreeting();
 });
 
 // 粒子背景系统
@@ -430,7 +430,8 @@ window.addEventListener('load', function() {
         
         // 显示欢迎消息
         setTimeout(() => {
-            showNotification('欢迎来到炫动空间！试试鼠标悬停效果和滚动动画', 'info');
+            showNotification('欢迎！试试鼠标悬停效果和滚动动画', 'info');
         }, 1000);
     }, 300);
+
 });
