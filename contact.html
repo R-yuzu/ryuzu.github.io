@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系方式 | 炫酷展示</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 动态背景 */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite linear;
+        }
+
+        .circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -3s;
+        }
+
+        .circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: -6s;
+        }
+
+        .circle:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 85%;
+            animation-delay: -9s;
+        }
+
+        .circle:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            top: 60%;
+            left: 10%;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            33% {
+                transform: translateY(-30px) translateX(30px) rotate(120deg);
+                opacity: 0.6;
+            }
+            66% {
+                transform: translateY(20px) translateX(-20px) rotate(240deg);
+                opacity: 1;
+            }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 标题 */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 联系方式卡片 */
+        .contact-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #f8f9fa;
+        }
+
+        .card-content {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffdd59;
+            margin-bottom: 1.5rem;
+            word-break: break-all;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .card-content:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: scale(1.03);
+        }
+
+        .card-description {
+            color: #aaa;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* 按钮区域 */
+        .action-area {
+            text-align: center;
+            margin-top: auto;
+            padding-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            color: #222;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #feca57, #ff6b6b);
+            z-index: -1;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        /* 复制提示 */
+        .copy-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 90%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .card-content {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: particle-float 20s infinite linear;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景 -->
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- 粒子效果 -->
+    <div class="particles" id="particles-container"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 标题 -->
+        <div class="header">
+            <h1>联系我</h1>
+            <p>欢迎通过以下方式与我取得联系。无论是工作合作还是技术交流，我都很期待与您沟通！</p>
+        </div>
+
+        <!-- 联系方式卡片 -->
+        <div class="contact-cards">
+            <!-- 手机号码 -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>手机号码</h3>
+                <div class="card-content" id="phone">138-0013-8000</div>
+                <p class="card-description">工作日上午9点到下午6点可随时拨打，其他时间请短信留言</p>
+            </div>
+
+            <!-- QQ号码 -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fab fa-qq"></i>
+                </div>
+                <h3>QQ号码</h3>
+                <div class="card-content" id="qq">123456789</div>
+                <p class="card-description">添加时请注明来意，我会尽快通过验证并与您联系</p>
+            </div>
+
+            <!-- 邮箱 -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>电子邮箱</h3>
+                <div class="card-content" id="email">contact@example.com</div>
+                <p class="card-description">24小时内回复，紧急事项请在邮件标题中标注【紧急】</p>
+            </div>
+        </div>
+
+        <!-- 按钮区域 -->
+        <div class="action-area">
+            <a href="index.html" class="btn">
+                <i class="fas fa-home"></i> 返回主页
+            </a>
+            <p style="margin-top: 1.5rem; color: #aaa; font-size: 1rem;">
+                点击联系方式可直接复制到剪贴板
+            </p>
+        </div>
+    </div>
+
+    <!-- 复制提示 -->
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i>
+        <span id="copyText">已复制到剪贴板</span>
+    </div>
+
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置
+                const left = Math.random() * 100;
+                const size = Math.random() * 3 + 1;
+                const opacity = Math.random() * 0.5 + 0.3;
+                const animationDuration = Math.random() * 20 + 10;
+                const animationDelay = Math.random() * 20;
+                
+                particle.style.left = `${left}%`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.opacity = opacity;
+                particle.style.animationDuration = `${animationDuration}s`;
+                particle.style.animationDelay = `${animationDelay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // 复制文本到剪贴板
+        function copyToClipboard(text, type) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 显示复制成功提示
+                const notification = document.getElementById('copyNotification');
+                const copyText = document.getElementById('copyText');
+                
+                // 根据类型设置提示文本
+                let typeName = '';
+                switch(type) {
+                    case 'phone':
+                        typeName = '手机号码';
+                        break;
+                    case 'qq':
+                        typeName = 'QQ号码';
+                        break;
+                    case 'email':
+                        typeName = '邮箱地址';
+                        break;
+                }
+                
+                copyText.textContent = `${typeName}已复制到剪贴板`;
+                notification.classList.add('show');
+                
+                // 3秒后隐藏提示
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动选择并复制文本');
+            });
+        }
+
+        // 为联系方式添加点击复制功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建粒子效果
+            createParticles();
+            
+            // 手机号码点击复制
+            document.getElementById('phone').addEventListener('click', function() {
+                const phoneText = this.textContent.replace(/-/g, '');
+                copyToClipboard(phoneText, 'phone');
+                
+                // 添加点击效果
+                this.style.transform = 'scale(1.05)';
+                this.style.backgroundColor = 'rgba(255, 221, 89, 0.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.backgroundColor = '';
+                }, 300);
+            });
+            
+            // QQ号码点击复制
+            document.getElementById('qq').addEventListener('click', function() {
+                copyToClipboard(this.textContent, 'qq');
+                
+                // 添加点击效果
+                this.style.transform = 'scale(1.05)';
+                this.style.backgroundColor = 'rgba(255, 221, 89, 0.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.backgroundColor = '';
+                }, 300);
+            });
+            
+            // 邮箱点击复制
+            document.getElementById('email').addEventListener('click', function() {
+                copyToClipboard(this.textContent, 'email');
+                
+                // 添加点击效果
+                this.style.transform = 'scale(1.05)';
+                this.style.backgroundColor = 'rgba(255, 221, 89, 0.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.backgroundColor = '';
+                }, 300);
+            });
+            
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.card-icon');
+                    icon.style.transform = 'scale(1.2) rotate(5deg)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.card-icon');
+                    icon.style.transform = '';
+                });
+            });
+        });
+
+        // 动态背景动画增强
+        document.addEventListener('DOMContentLoaded', function() {
+            const circles = document.querySelectorAll('.circle');
+            
+            circles.forEach((circle, index) => {
+                // 为每个圆圈添加随机颜色
+                const hue = Math.floor(Math.random() * 360);
+                circle.style.background = `hsla(${hue}, 70%, 60%, 0.1)`;
+                
+                // 随机动画延迟
+                const delay = Math.random() * 5;
+                circle.style.animationDelay = `-${delay}s`;
+            });
+        });
+    </script>
+</body>
+</html>
