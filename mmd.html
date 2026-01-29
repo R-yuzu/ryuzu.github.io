@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMD - GitHub Pages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0c0;
+            margin-bottom: 20px;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .video-section {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .info-section {
+            flex: 2;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: #000;
+            margin-bottom: 20px;
+        }
+        
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .video-controls {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            margin: 0 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+        }
+        
+        .time-display {
+            color: #aaa;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            margin: 0 5px;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #6a11cb;
+            cursor: pointer;
+        }
+        
+        .info-section h2 {
+            color: #6a11cb;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .video-details {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .video-details li {
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .video-details li:last-child {
+            border-bottom: none;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(106, 17, 203, 0.2);
+            color: #b399ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .decorations {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .decoration-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            flex: 1;
+            min-width: 150px;
+            transition: transform 0.3s ease;
+        }
+        
+        .decoration-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .decoration-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #6a11cb;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .github-link {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .control-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* 响应式视频容器 */
+        @media (max-width: 480px) {
+            .video-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .progress-container {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .time-display {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-play-circle"></i> MMD</h1>
+            <p class="subtitle">GitHub Pages视频</p>
+        </header>
+        
+        <div class="content-wrapper">
+            <section class="video-section">
+                <div class="video-container">
+                    <!-- 视频元素 -->
+                    <video id="mmdVideo" poster="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <source src="MMD.mp4" type="video/mp4">
+                        您的浏览器不支持HTML5视频，请使用现代浏览器如Chrome、Firefox或Edge。
+                    </video>
+                    
+                    <!-- 视频控制面板 -->
+                    <div class="video-controls">
+                        <button class="control-btn" id="playBtn" title="播放/暂停">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        
+                        <button class="control-btn" id="rewindBtn" title="后退10秒">
+                            <i class="fas fa-backward"></i>
+                        </button>
+                        
+                        <button class="control-btn" id="forwardBtn" title="前进10秒">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                        
+                        <div class="progress-container" id="progressContainer">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                        </div>
+                        
+                        <div class="volume-container">
+                            <button class="control-btn" id="muteBtn" title="静音">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+                        </div>
+                        
+                        <button class="control-btn" id="fullscreenBtn" title="全屏">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <p>视频文件: <strong>MMD.mp4</strong> | 格式: MP4 | 平台: GitHub Pages</p>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h2><i class="fas fa-info-circle"></i> 视频信息</h2>
+                <ul class="video-details">
+                    <li><span>视频标题:</span> <strong>MMD演示视频</strong></li>
+                    <li><span>文件大小:</span> <strong>约 24 MB</strong></li>
+                    <li><span>视频格式:</span> <strong>MP4 (H.264编码)</strong></li>
+                    <li><span>播放平台:</span> <strong>GitHub Pages</strong></li>
+                    <li><span>上传时间:</span> <strong>最近更新</strong></li>
+                    <li><span>兼容性:</span> <strong>所有现代浏览器</strong></li>
+                </ul>
+                
+                <h2><i class="fas fa-tags"></i> 标签</h2>
+                <div>
+                    <span class="tag">MMD</span>
+                    <span class="tag">动画</span>
+                    <span class="tag">3D模型</span>
+                    <span class="tag">GitHub</span>
+                    <span class="tag">HTML5</span>
+                    <span class="tag">视频播放</span>
+                    <span class="tag">Web技术</span>
+                </div>
+            </section>
+        </div>
+        
+        <div class="decorations">
+            <div class="decoration-item">
+                <div class="decoration-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>GitHub托管</h3>
+                <p>视频文件托管于GitHub仓库</p>
+            </div>
+            
+            <div class="decoration-item">
+                <div class="decoration-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>流畅播放</h3>
+                <p>HTML5视频播放器，兼容性好</p>
+            </div>
+            
+            <div class="decoration-item">
+                <div class="decoration-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>美观设计</h3>
+                <p>现代化UI，暗色主题</p>
+            </div>
+            
+            <div class="decoration-item">
+                <div class="decoration-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>响应式布局</h3>
+                <p>适配各种屏幕尺寸</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>本页面使用HTML5、CSS3和JavaScript实现 | 视频播放器专为GitHub Pages设计</p>
+            <p>托管于 <a href="https://pages.github.com/" class="github-link" target="_blank">GitHub Pages</a> | 视频文件: MMD.mp4</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">注意: 由于GitHub有25MB文件限制，如果视频超过此大小，请参考之前的解决方案。</p>
+        </footer>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const video = document.getElementById('mmdVideo');
+        const playBtn = document.getElementById('playBtn');
+        const rewindBtn = document.getElementById('rewindBtn');
+        const forwardBtn = document.getElementById('forwardBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeElement = document.getElementById('currentTime');
+        const durationElement = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteBtn = document.getElementById('muteBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        
+        // 播放/暂停功能
+        playBtn.addEventListener('click', togglePlay);
+        video.addEventListener('click', togglePlay);
+        
+        function togglePlay() {
+            if (video.paused || video.ended) {
+                video.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                playBtn.setAttribute('title', '暂停');
+            } else {
+                video.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playBtn.setAttribute('title', '播放');
+            }
+        }
+        
+        // 快进/快退功能
+        rewindBtn.addEventListener('click', () => {
+            video.currentTime -= 10;
+        });
+        
+        forwardBtn.addEventListener('click', () => {
+            video.currentTime += 10;
+        });
+        
+        // 更新进度条和时间显示
+        video.addEventListener('timeupdate', updateProgress);
+        video.addEventListener('loadedmetadata', () => {
+            durationElement.textContent = formatTime(video.duration);
+        });
+        
+        progressContainer.addEventListener('click', setProgress);
+        
+        function updateProgress() {
+            const percent = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            currentTimeElement.textContent = formatTime(video.currentTime);
+        }
+        
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = video.duration;
+            video.currentTime = (clickX / width) * duration;
+        }
+        
+        // 音量控制
+        volumeSlider.addEventListener('input', () => {
+            video.volume = volumeSlider.value;
+            updateVolumeIcon();
+        });
+        
+        muteBtn.addEventListener('click', toggleMute);
+        
+        function toggleMute() {
+            video.muted = !video.muted;
+            volumeSlider.value = video.muted ? 0 : video.volume;
+            updateVolumeIcon();
+        }
+        
+        function updateVolumeIcon() {
+            if (video.muted || video.volume === 0) {
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                muteBtn.setAttribute('title', '取消静音');
+            } else if (video.volume > 0.5) {
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                muteBtn.setAttribute('title', '静音');
+            } else {
+                muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+                muteBtn.setAttribute('title', '静音');
+            }
+        }
+        
+        // 全屏功能
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        function toggleFullscreen() {
+            const videoContainer = document.querySelector('.video-container');
+            
+            if (!document.fullscreenElement) {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                fullscreenBtn.setAttribute('title', '退出全屏');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                fullscreenBtn.setAttribute('title', '全屏');
+            }
+        }
+        
+        // 退出全屏时更新按钮
+        document.addEventListener('fullscreenchange', exitHandler);
+        document.addEventListener('webkitfullscreenchange', exitHandler);
+        document.addEventListener('msfullscreenchange', exitHandler);
+        
+        function exitHandler() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                fullscreenBtn.setAttribute('title', '全屏');
+            }
+        }
+        
+        // 格式化时间显示 (秒 -> mm:ss)
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        // 视频结束时重置播放按钮
+        video.addEventListener('ended', () => {
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playBtn.setAttribute('title', '播放');
+        });
+        
+        // 页面加载时初始化音量图标
+        updateVolumeIcon();
+        
+        // 键盘快捷键支持
+        document.addEventListener('keydown', (e) => {
+            // 空格键切换播放/暂停
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                togglePlay();
+            }
+            
+            // 左右箭头控制快进快退
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                video.currentTime -= 5;
+            }
+            if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                video.currentTime += 5;
+            }
+            
+            // 上/下箭头控制音量
+            if (e.code === 'ArrowUp') {
+                e.preventDefault();
+                if (video.volume + 0.05 <= 1) {
+                    video.volume += 0.05;
+                } else {
+                    video.volume = 1;
+                }
+                volumeSlider.value = video.volume;
+                updateVolumeIcon();
+            }
+            if (e.code === 'ArrowDown') {
+                e.preventDefault();
+                if (video.volume - 0.05 >= 0) {
+                    video.volume -= 0.05;
+                } else {
+                    video.volume = 0;
+                }
+                volumeSlider.value = video.volume;
+                updateVolumeIcon();
+            }
+            
+            // F键切换全屏
+            if (e.code === 'KeyF') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+            
+            // M键切换静音
+            if (e.code === 'KeyM') {
+                e.preventDefault();
+                toggleMute();
+            }
+        });
+    </script>
+</body>
+</html>
